@@ -11,22 +11,10 @@
   grid-gap: 10px;
 }
 
-.navbar {
-  grid-area: n;
-}
-
-.header {
-  grid-area: h;
-}
-
-.header > img {
-  width: 50px;
-}
-
-.content {
+.app-wrapper-content {
   grid-area: c;
 }
 
-.content > img {
-  display: block;
-}
+
+
+
