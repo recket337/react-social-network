@@ -1,8 +1,18 @@
 .navbar {
     grid-area: n;
     background-color: khaki;
+    padding: 20px;
 }
 
-.item {
-    color: grey;
+.list {
+    list-style-type: none;
+}
+
+.item a{
+    text-decoration: none;
+    color: rebeccapurple;
+}
+
+.item a.active {
+    color: gold;
 }
