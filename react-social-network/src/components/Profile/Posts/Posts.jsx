@@ -4,18 +4,33 @@ import { Post } from './Post';
 import s from'./Posts.module.css';
 
 export const Posts = (props) => {
-    return (
+  let postsData = [
+    { id: 1, message: 'fewe', likesCount: 11},
+    { id: 1, message: 'fewe', likesCount: 11},
+    { id: 1, message: 'fewe', likesCount: 11},
+  ]
+
+  let postsElements = postsData.map( p => <Posts message = { p.message } likes count = { p.likesCount } />);
+
+  return (
+    <div className = {s.posts}>
+      <h3>Posts</h3>
+
       <div>
         <textarea></textarea>
-        <button>New post</button>
-        <div>
-            New post
-        </div>
-        <div className = {s.posts}>
-            <Post />
-            <Post />
-            <Post />
-        </div>
       </div>
-    )
+
+      <div>
+        <button>New post</button>
+      </div>
+      
+      <div>
+        New post
+      </div>
+
+      <div className = {s.posts}>
+        { postsElements }
+      </div>
+    </div>
+  )
 }
