@@ -4,7 +4,12 @@ import s from'./Post.module.css';
 export const Post = (props) => {
     return (
       <div className = {s.item}>
-          post 1
+        <div>
+          { props.message }
+        </div>
+        <div>
+          likes: { props.likesCount }
+        </div>
       </div>
     )
 }
