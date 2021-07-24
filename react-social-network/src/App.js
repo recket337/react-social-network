@@ -10,7 +10,6 @@ function App(props) {
   return (
     <BrowserRouter>
       <div className="app-wrapper">
-          
           <Header />
           
           <Nav />
@@ -18,8 +17,8 @@ function App(props) {
           {/* <Profile /> */}
           
           <div className = 'app-wrapper-content'>
-            <Route path = '/dialogs' render = { () => <Dialogs dialogsData = { props.dialogsData } messagesData = { props.messagesData } /> }/>
-            <Route path = '/profile' render = { () => <Profile postsData = { props.postsData } /> }/>
+            <Route path = '/dialogs' render = { () => <Dialogs dialogs = { props.state.dialogsPage } /> }/>
+            <Route path = '/profile' render = { () => <Profile profile = { props.state.profilePage } addPost = { props.addPost }/> }/>
           </div>
         </div>
     </BrowserRouter>
