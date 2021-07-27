@@ -1,36 +1,54 @@
-import { renderEntireTree } from "../render";
-
-export let state = {
+export let store = {
+  _state: {
     profilePage: {
-        postsData: [
-            { id: 1, message: 'fewe', likesCount: 11},
-            { id: 2, message: 'fewe', likesCount: 11},
-            { id: 3, message: 'fewe', likesCount: 11},
-        ]
+      postsData: [
+        { id: 1, message: 'fewe', likesCount: 11 },
+        { id: 2, message: 'fewe', likesCount: 11 },
+        { id: 3, message: 'fewe', likesCount: 11 },
+      ],
+      newPostText: '',
     },
     dialogsPage: {
-        dialogsData: [
-            { id: 1, name: 'Andrew'},
-            { id: 2, name: 'Dick'},
-            { id: 3, name: 'John'},
-            { id: 4, name: 'Jason'},
-        ],
-        messagesData: [
-            { id: 1, message: 'fewe'},
-            { id: 2, message: 'fewe'},
-            { id: 3, message: 'fewe'},
-            { id: 4, message: 'fewe'},
-        ]
-    }
-}
+      dialogsData: [
+        { id: 1, name: 'Andrew' },
+        { id: 2, name: 'Dick' },
+        { id: 3, name: 'John' },
+        { id: 4, name: 'Jason' },
+      ],
+      messagesData: [
+        { id: 1, message: 'fewe' },
+        { id: 2, message: 'fewe' },
+        { id: 3, message: 'fewe' },
+        { id: 4, message: 'fewe' },
+      ],
+    },
+  },
 
-export let addPost = (postMessage) => {
+  _renderEntireTree() {
+    console.log('state changed');
+  },
+
+  getState() {
+    return this._state;
+  },
+
+  addPost() {
     let newPost = {
-        id: state.profilePage.postsData.length + 1,
-        message: postMessage,
-        likesCount: 0,
-    }
-    state.profilePage.postsData.push(newPost);
-    renderEntireTree(state);
+      id: this._state.profilePage.postsData.length + 1,
+      message: this._state.profilePage.newPostText,
+      likesCount: 0,
+    };
+    this._state.profilePage.postsData.push(newPost);
+    this._state.profilePage.postsData.newPostText = '';
+    this._renderEntireTree(this._state);
+  },
+
+  updateNewPostText(newText) {
+    this._state.profilePage.newPostText = newText;
+    this._renderEntireTree(this._state);
+  },
+
+  subscribe(observer) {
+    this.renderEntireTree = observer;
+  },
 }
-    

@@ -10,17 +10,29 @@ function App(props) {
   return (
     <BrowserRouter>
       <div className="app-wrapper">
-          <Header />
-          
-          <Nav />
+        <Header />
 
-          {/* <Profile /> */}
-          
-          <div className = 'app-wrapper-content'>
-            <Route path = '/dialogs' render = { () => <Dialogs dialogs = { props.state.dialogsPage } /> }/>
-            <Route path = '/profile' render = { () => <Profile profile = { props.state.profilePage } addPost = { props.addPost }/> }/>
-          </div>
+        <Nav />
+
+        {/* <Profile /> */}
+
+        <div className="app-wrapper-content">
+          <Route
+            path="/dialogs"
+            render={() => <Dialogs dialogs={props.state.dialogsPage} />}
+          />
+          <Route
+            path="/profile"
+            render={() => (
+              <Profile
+                profile={props.state.profilePage}
+                addPost={props.addPost}
+                updateNewPostText={props.updateNewPostText}
+              />
+            )}
+          />
         </div>
+      </div>
     </BrowserRouter>
   );
 }
