@@ -32,23 +32,23 @@ export let store = {
     return this._state;
   },
 
-  addPost() {
-    let newPost = {
-      id: this._state.profilePage.postsData.length + 1,
-      message: this._state.profilePage.newPostText,
-      likesCount: 0,
-    };
-    this._state.profilePage.postsData.push(newPost);
-    this._state.profilePage.postsData.newPostText = '';
-    this._renderEntireTree(this._state);
-  },
-
-  updateNewPostText(newText) {
-    this._state.profilePage.newPostText = newText;
-    this._renderEntireTree(this._state);
+  dispatch(action) {
+    if (action.type === 'ADD-POST') {
+      let newPost = {
+        id: this._state.profilePage.postsData.length + 1,
+        message: this._state.profilePage.newPostText,
+        likesCount: 0,
+      };
+      this._state.profilePage.postsData.push(newPost);
+      this._state.profilePage.newPostText = '';
+      this._renderEntireTree(this._state);
+    } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+      this._state.profilePage.newPostText = action.newText;
+      this._renderEntireTree(this._state);
+    }
   },
 
   subscribe(observer) {
-    this.renderEntireTree = observer;
+    this._renderEntireTree = observer;
   },
 }

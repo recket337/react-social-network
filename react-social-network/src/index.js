@@ -3,21 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { store } from './redux/state';
 import reportWebVitals from './reportWebVitals';
-
 import App from './App';
 
-export const renderEntireTree = (state) => {
+window.store = store;
+
+const renderEntireTree = (state) => {
   ReactDOM.render(
     <React.StrictMode>
       <App
         state={ state }
-        addPost={ store.addPost.bind(store) }
-        updateNewPostText={ store.updateNewPostText.bind(store) }
+        dispatch={store.dispatch.bind(store)}
       />
     </React.StrictMode>,
     document.getElementById('root')
   );
 };
+
 
 renderEntireTree(store.getState());
 

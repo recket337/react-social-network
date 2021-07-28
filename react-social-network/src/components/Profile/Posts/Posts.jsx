@@ -12,14 +12,13 @@ export const Posts = (props) => {
   let addPost = () => {
     let text = newPostElement.current.value;
     if(text) {
-      props.addPost();
-      props.updateNewPostText('');
+      props.dispatch({ type: 'ADD-POST' });
     }
   }
 
   let onPostChange = () => {
     let text = newPostElement.current.value;
-    props.updateNewPostText(text);
+    props.dispatch({ type: 'UPDATE-NEW-POST-TEXT', newText: text });
   }
 
   return (
@@ -27,14 +26,14 @@ export const Posts = (props) => {
       <h3>Posts</h3>
 
       <div>
-        <textarea 
-          className = { s.textArea } 
-          onChange = { onPostChange } 
-          ref = { newPostElement } 
+        <textarea
+          className = { s.textArea }
+          onChange = { onPostChange }
+          ref = { newPostElement }
           value = { props.profileData.newPostText }/>
       </div>
 
-      
+
       <button className = { s.newPostButton } onClick = { addPost }>New post</button>
 
       <div className = {s.posts}>
