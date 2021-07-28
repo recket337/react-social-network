@@ -12,6 +12,7 @@
 }
 
 .item {
+
 }
 
 .messages {
@@ -19,4 +20,22 @@
 }
 
 .messages .message {
+
+}
+
+.newMessageBlock {
+  
+}
+
+.textarea {
+  width: 50%;
+  height: 70px;
+  border: 2px solid salmon;
+}
+
+.buttonSend {
+  display: block;
+  width: 20%;
+  height: 30px;
+  background-color: skyblue;
 }
