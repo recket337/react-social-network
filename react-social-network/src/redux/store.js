@@ -2,11 +2,6 @@ import { dialogsReducer } from './dialogsReducer';
 import { profileReducer } from './profileReducer';
 import { sidebarReducer } from './sidebarReducer';
 
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
-const SEND_MESSAGE = 'SEND-MASSAGE';
-
 export let store = {
   _state: {
     profilePage: {
@@ -44,15 +39,15 @@ export let store = {
   },
 
   dispatch(action) {
-    this.getState().profilePage = profileReducer(
-      this.getState().profilePage,
+    this._state.profilePage = profileReducer(
+      this._state.profilePage,
       action
     );
-    this.getState().dialogsPage = dialogsReducer(
-      this.getState().dialogsPage,
+    this._state.dialogsPage = dialogsReducer(
+      this._state.dialogsPage,
       action
     );
-    this.getState().sidebar = sidebarReducer(this.getState().sidebar, action);
+    this._state.sidebar = sidebarReducer(this._state.sidebar, action);  
 
     this._renderEntireTree(this._state);
   },
