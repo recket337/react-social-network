@@ -1,3 +1,7 @@
+import { dialogsReducer } from './dialogsReducer';
+import { profileReducer } from './profileReducer';
+import { sidebarReducer } from './sidebarReducer';
+
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
@@ -26,8 +30,9 @@ export let store = {
         { id: 3, message: 'fewe' },
         { id: 4, message: 'fewe' },
       ],
-      newMessageBody: "",
+      newMessageBody: '',
     },
+    sidebar: {},
   },
 
   _renderEntireTree() {
@@ -39,52 +44,20 @@ export let store = {
   },
 
   dispatch(action) {
-    if (action.type === ADD_POST) {
-      let newPost = {
-        id: this._state.profilePage.postsData.length + 1,
-        message: this._state.profilePage.newPostText,
-        likesCount: 0,
-      };
-      this._state.profilePage.postsData.push(newPost);
-      this._state.profilePage.newPostText = '';
-      this._renderEntireTree(this._state);
-    } else if (action.type === UPDATE_NEW_POST_TEXT) {
-      this._state.profilePage.newPostText = action.newText;
-      this._renderEntireTree(this._state);
-    } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
-      this._state.dialogsPage.newMessageBody = action.body;
-      this._renderEntireTree(this._state);
-    } else if (action.type === SEND_MESSAGE) {
-      let body = this._state.dialogsPage.newMessageBody;
-      this._state.dialogsPage.newMessageBody = '';
-      this._state.dialogsPage.messagesData.push({
-        id: this._state.dialogsPage.messagesData.length + 1,
-        message: body,
-      })
-      this._renderEntireTree(this._state);
-    }
+    this.getState().profilePage = profileReducer(
+      this.getState().profilePage,
+      action
+    );
+    this.getState().dialogsPage = dialogsReducer(
+      this.getState().dialogsPage,
+      action
+    );
+    this.getState().sidebar = sidebarReducer(this.getState().sidebar, action);
+
+    this._renderEntireTree(this._state);
   },
 
   subscribe(observer) {
     this._renderEntireTree = observer;
   },
 };
-
-export const addPostActionCreator = () => ({ type: ADD_POST }); // SYNTAX
-
-export const updateNewPostTextActionCreator = (text) => {
-  return {
-    type: UPDATE_NEW_POST_TEXT,
-    newText: text,
-  };
-};
-
-export const updateNewMessageBodyActionCreator = (text) => {
-  return {
-    type: UPDATE_NEW_MESSAGE_BODY,
-    body: text,
-  };
-};
-
-export const sendMessageActionCreator = () => ({ type: SEND_MESSAGE }); // SYNTAX
-
