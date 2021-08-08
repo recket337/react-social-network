@@ -18,18 +18,26 @@ let initialState = {
 };
 
 export const dialogsReducer = (state = initialState, action) => {
+
   switch (action.type) {
-    case UPDATE_NEW_MESSAGE_BODY:
-      state.newMessageBody = action.body;
-      return state;
-    case SEND_MESSAGE:
+    case UPDATE_NEW_MESSAGE_BODY: {
+      return {
+        ...state,
+        //messagesData: [...state.messagesData] // overwrite by priority
+        newMessageBody: action.body
+      };
+    }
+    case SEND_MESSAGE: {
       let body = state.newMessageBody;
-      state.newMessageBody = '';
-      state.messagesData.push({
-        id: state.messagesData.length + 1,
-        message: body,
-      });
-      return state;
+      return {
+        ...state,
+        messagesData: [...state.messagesData, {
+          id: state.messagesData.length + 1,
+          message: body,
+        }], // overwrite by priority
+        newMessageBody: '',
+      };
+    }
     default:
       return state;
   }

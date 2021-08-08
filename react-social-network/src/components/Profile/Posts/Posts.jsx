@@ -6,12 +6,9 @@ export const Posts = (props) => {
   let postsElements = props.profileData.postsData.map( p => <Post message = { p.message } likesCount = { p.likesCount } />);
 
   let newPostElement = React.createRef();
-  debugger;
+
   let onAddPost = () => {
-    let text = newPostElement.current.value;
-    if(text) {
-      props.addPost();
-    }
+    props.addPost();
   }
 
   let onPostChange = () => {
@@ -19,7 +16,6 @@ export const Posts = (props) => {
     props.updateNewPostText(text);
   }
 
-  console.log(props);
   return (
     <div className = {s.posts}>
       <h3>Posts</h3>

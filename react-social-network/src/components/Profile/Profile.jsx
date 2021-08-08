@@ -3,11 +3,11 @@ import s from "./Profile.module.css";
 import { ProfileInfo } from "./ProfileInfo/ProfileInfo";
 import { PostsContainer } from "./Posts/PostsContainer";
 
-export const Profile = (props) => {
+export const Profile = () => {
   return (
     <div>
       <ProfileInfo />
-      <PostsContainer />
+      <PostsContainer/>
     </div>
   );
 };

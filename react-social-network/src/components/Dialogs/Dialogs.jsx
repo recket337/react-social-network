@@ -5,27 +5,25 @@ import s from "./Dialogs.module.css";
 
 export const Dialogs = (props) => {
   let dialogs = props.dialogsPage;
+
   let messagesElements = dialogs.messagesData.map((message) => (
-    <Message message={message.message} />
+    <Message message={message.message} key={message.id}/>
   ));
 
   let dialogElements = dialogs.dialogsData.map((dialog) => (
-    <DialogItem name={dialog.name} id={dialog.id} />
+    <DialogItem name={dialog.name} key={dialog.id} id={dialog.id} />
   ));
 
   let newMessageBody = dialogs.newMessageBody;
 
-  debugger;
   let onSendMessageClick = () => {
     props.sendMessage();
   };
 
   let onNewMessageChange = (e) => {
     let body = e.target.value;
-    props.newMessageChange(body);
+    props.updateNewMessageBody(body);
   };
-
-  console.log(props);
 
   return (
     <div className={s.dialogs}>
@@ -36,7 +34,7 @@ export const Dialogs = (props) => {
           <textarea
             className={s.textarea}
             placeholder="Enter new message"
-            value={newMessageBody}
+            defaultValue={newMessageBody}
             onChange={onNewMessageChange}
           />
           <button className={s.buttonSend} onClick={onSendMessageClick}>Send Message</button>

@@ -39,15 +39,9 @@ export let store = {
   },
 
   dispatch(action) {
-    this._state.profilePage = profileReducer(
-      this._state.profilePage,
-      action
-    );
-    this._state.dialogsPage = dialogsReducer(
-      this._state.dialogsPage,
-      action
-    );
-    this._state.sidebar = sidebarReducer(this._state.sidebar, action);  
+    this._state.profilePage = profileReducer(this._state.profilePage, action);
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+    this._state.sidebar = sidebarReducer(this._state.sidebar, action);
 
     this._renderEntireTree(this._state);
   },
@@ -56,3 +50,5 @@ export let store = {
     this._renderEntireTree = observer;
   },
 };
+
+store.dispatch = store.dispatch.bind(store);
