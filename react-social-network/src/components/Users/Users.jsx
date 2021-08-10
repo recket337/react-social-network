@@ -4,59 +4,60 @@ import * as axios from "axios";
 import userImage from "../../assets/images/user.jpg";
 
 class Users extends React.Component {
-  constructor(props) {
-    super(props);
-
+  componentDidMount() {
     axios
-      .get("https://social-network.samuraijs.com/api/1.0/users")
+      .get(
+        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+      )
       .then((response) => {
         this.props.setUsers(
           response.data.items
-          /* [
-        {
-          id: 1,
-          photoUrl:
-            "https://lumiere-a.akamaihd.net/v1/images/spiderman-characterthumbnail-spiderman_3a64e546.jpeg?region=0%2C0%2C300%2C300",
-          followed: false,
-          fullName: "Sasha",
-          status: "fe",
-          location: { city: "Minsk", country: "Belarus" },
-        },
-        {
-          id: 2,
-          photoUrl:
-            "https://lumiere-a.akamaihd.net/v1/images/spiderman-characterthumbnail-spiderman_3a64e546.jpeg?region=0%2C0%2C300%2C300",
-          followed: true,
-          fullName: "Dmitry",
-          status: "fe",
-          location: { city: "Moscow", country: "Russia" },
-        },
-        {
-          id: 3,
-          photoUrl:
-            "https://lumiere-a.akamaihd.net/v1/images/spiderman-characterthumbnail-spiderman_3a64e546.jpeg?region=0%2C0%2C300%2C300",
-          followed: false,
-          fullName: "Anton",
-          status: "fe",
-          location: { city: "Kiev", country: "Ukraine" },
-        },
-        {
-          id: 4,
-          photoUrl:
-            "https://lumiere-a.akamaihd.net/v1/images/spiderman-characterthumbnail-spiderman_3a64e546.jpeg?region=0%2C0%2C300%2C300",
-          followed: false,
-          fullName: "Andrew",
-          status: "fe",
-          location: { city: "Biala Podlaska", country: "Poland" },
-        },
-        ] */
         );
+        this.props.setTotalUsersCount(response.data.totalCount);
       });
   }
 
+  onPageChanged = (pageNumber) => {
+    this.props.setCurrentPage(pageNumber);
+    axios
+      .get(
+        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`
+      )
+      .then((response) => {
+        this.props.setUsers(
+          response.data.items
+        );
+      });
+  };
+
   render() {
+    const pagesCount = Math.ceil(
+      this.props.totalUsersCount / this.props.pageSize
+    );
+
+    const pages = [];
+    for (let i = 1; i <= pagesCount; i += 1) {
+      pages.push(i);
+    }
+
     return (
       <div>
+        <div>
+          {pages.map((p) => {
+            return (
+              <span
+                className={`${s.pagination} ${
+                  this.props.currentPage === p && s.selectedPage
+                }`}
+                onClick={(e) => {
+                  this.onPageChanged(p);
+                }}
+              >
+                {p}
+              </span>
+            );
+          })}
+        </div>
         {this.props.users.map((u) => (
           <div key={u.id}>
             <span>
