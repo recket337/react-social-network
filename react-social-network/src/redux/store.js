@@ -51,4 +51,4 @@ export let store = {
   },
 };
 
-store.dispatch = store.dispatch.bind(store);
+//store.dispatch = store.dispatch.bind(store);
