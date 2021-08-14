@@ -5,17 +5,16 @@ import { Profile } from "./Profile";
 import * as axios from "axios";
 import { withRouter } from "react-router";
 import s from "./Profile.module.css";
+import { usersAPI } from "../../api/api";
 
 export class ProfileContainer extends React.Component {
   componentDidMount() {
     //debugger;
     let userId = this.props.match.params.userId;
     userId = userId ? userId : 2;
-    axios
-      .get("https://social-network.samuraijs.com/api/1.0/profile/" + userId)
-      .then((response) => {
-        this.props.setUserProfile(response.data);
-      });
+    usersAPI.getUserWithId(userId).then((response) => {
+      this.props.setUserProfile(response.data);
+    });
   }
 
   render() {

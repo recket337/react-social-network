@@ -10,3 +10,11 @@
 .pagination:hover {
   cursor: pointer;
 }
+
+button {
+  background-color: rgb(30, 218, 30);
+}
+
+button:disabled {
+  background-color: indianred;
+}

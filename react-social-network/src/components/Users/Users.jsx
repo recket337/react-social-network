@@ -2,12 +2,11 @@ import React from "react";
 import s from "./Users.module.css";
 import userImage from "../../assets/images/user.jpg";
 import { NavLink } from "react-router-dom";
+//import * as axios from "axios";
+import { usersAPI } from "../../api/api";
 
 export const Users = (props) => {
-
-  const pagesCount = Math.ceil(
-    props.totalUsersCount / props.pageSize
-  );
+  const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
   let pages = [];
   for (let i = 1; i <= pagesCount; i += 1) {
@@ -36,7 +35,7 @@ export const Users = (props) => {
         <div key={u.id}>
           <span>
             <div>
-              <NavLink to={'/profile/' + u.id}>
+              <NavLink to={"/profile/" + u.id}>
                 <img
                   src={u.photos.small != null ? u.photos.small : userImage}
                   className={s.avatar}
@@ -46,16 +45,30 @@ export const Users = (props) => {
             <div>
               {u.followed ? (
                 <button
+                  disabled={props.followingInProgress}
                   onClick={() => {
-                    props.unfollow(u.id);
+                    props.toggleFollowingInProgress(true);
+                    usersAPI.deleteUserUnfollow(u.id).then((response) => {
+                      if (response.data.resultCode == 0) {
+                        props.unfollow(u.id);
+                      }
+                      props.toggleFollowingInProgress(false);
+                    });
                   }}
                 >
                   Unfollow
                 </button>
               ) : (
                 <button
+                  disabled={props.followingInProgress}
                   onClick={() => {
-                    props.follow(u.id);
+                    props.toggleFollowingInProgress(true);
+                    usersAPI.postUserFollow(u.id).then((response) => {
+                      if (response.data.resultCode == 0) {
+                        props.follow(u.id);
+                      }
+                      props.toggleFollowingInProgress(false);
+                    });
                   }}
                 >
                   Follow
@@ -78,4 +91,3 @@ export const Users = (props) => {
     </div>
   );
 };
-
