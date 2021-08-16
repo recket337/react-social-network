@@ -4,6 +4,7 @@ import {
   sendMessageActionCreator,
   updateNewMessageBodyActionCreator,
 } from "../../redux/dialogsReducer";
+import { withAuthRedirect } from "../hoc/WithAuthRedirect";
 import { Dialogs } from "./Dialogs";
 
 let mapStateToProps = (state) => {
@@ -23,4 +24,6 @@ let mapDispatchToProps = (dispatch) => {
   }
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+const AuthRedirectComponent = withAuthRedirect(Dialogs);
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
