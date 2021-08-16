@@ -1,38 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  followAC,
-  setUsersAC,
-  unfollowAC,
-  setCurrentPageAC,
-  setUsersTotalCountAC,
-  toggleIsFetchingAC,
-  toggleFollowingInProgress
+  getUsersThunk,
+  setUsersPageThunk,
+  follow,
+  unfollow
 } from "../../redux/users-reducer";
 import { Users } from "./Users";
 import { Preloader } from "../common/Preloader/Preloader";
-import { usersAPI } from "../../api/api";
 
 export class UsersAPIComponent extends React.Component {
   componentDidMount() {
-    this.props.toggleIsFetching(true);
-
-    usersAPI.getUsersGET(this.props.currentPage, this.props.pageSize).then((data) => {
-      this.props.toggleIsFetching(false);
-      this.props.setUsers(data.items);
-      this.props.setTotalUsersCount(data.totalCount);
-      this.props.setTotalUsersCount(100); // HARDCODE
-    });
+    this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);
   }
 
   onPageChanged = (pageNumber) => {
-    this.props.setCurrentPage(pageNumber);
-    this.props.toggleIsFetching(true);
-
-    usersAPI.getUsersGET(pageNumber, this.props.pageSize).then((data) => {
-      this.props.toggleIsFetching(false);
-      this.props.setUsers(data.items);
-    });
+    this.props.setUsersPageThunk(pageNumber, this.props.pageSize);
   };
 
   render() {
@@ -48,7 +31,6 @@ export class UsersAPIComponent extends React.Component {
           follow={this.props.follow}
           unfollow={this.props.unfollow}
           followingInProgress={this.props.followingInProgress}
-          toggleFollowingInProgress={this.props.toggleFollowingInProgress}
         />
       </>
     );
@@ -90,11 +72,8 @@ const mapStateToProps = (state) => {
 // }
 
 export const UsersContainer = connect(mapStateToProps, {
-  follow: followAC,
-  unfollow: unfollowAC,
-  setUsers: setUsersAC,
-  setCurrentPage: setCurrentPageAC,
-  setTotalUsersCount: setUsersTotalCountAC,
-  toggleIsFetching: toggleIsFetchingAC,
-  toggleFollowingInProgress
+  getUsersThunk,
+  setUsersPageThunk,
+  follow,
+  unfollow
 })(UsersAPIComponent);

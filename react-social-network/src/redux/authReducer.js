@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api";
+
 const SET_USER_DATA = 'SET_USER_DATA';
 
 let initialState = {
@@ -15,7 +17,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         ...action.data,
         isAuth: true,
-      }
+      };
     }
     default:
       return state;
@@ -24,4 +26,16 @@ export const authReducer = (state = initialState, action) => {
 
 //need break every case, but return is here
 
-export const setAuthUserData = (userId, email, login) => ({ type: SET_USER_DATA, data: { userId, email, login} }); // SYNTAX
+export const setAuthUserData = (userId, email, login) => ({
+  type: SET_USER_DATA,
+  data: { userId, email, login },
+}); // SYNTAX
+
+export const setUserProfileThunk = () => (dispatch) => {
+  usersAPI.getAuth().then((response) => {
+    if (response.data.resultCode === 0) {
+      let { id, login, email } = response.data.data;
+      dispatch(setAuthUserData(id, email, login));
+    }
+  });
+};

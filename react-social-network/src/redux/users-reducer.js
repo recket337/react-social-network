@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -68,7 +70,7 @@ export const usersReducer = (state = initialState, action) => {
         ...state,
         followingInProgress: action.isFetching
           ? [...state.followingInProgress, action.userId]
-          : state.followingInProgress.filter(id => id != action.userId),
+          : state.followingInProgress.filter((id) => id != action.userId),
       };
     }
     default:
@@ -104,3 +106,58 @@ export const toggleFollowingInProgress = (isFetching, userId) => ({
   isFetching,
   userId,
 });
+
+export const getUsersThunk = (currentPage, pageSize) => {
+  return (dispatch) => {
+    dispatch(toggleIsFetchingAC(true));
+
+    usersAPI
+      .getUsersGET(currentPage, pageSize)
+      .then((data) => {
+        dispatch(toggleIsFetchingAC(false));
+        dispatch(setUsersAC(data.items));
+        dispatch(setUsersTotalCountAC(data.totalCount));
+        dispatch(setUsersTotalCountAC(100)); // HARDCODE
+      });
+  };
+};
+
+
+export const setUsersPageThunk = (currentPage, pageSize) => {
+  return (dispatch) => {
+    dispatch(setCurrentPageAC(currentPage));
+    dispatch(toggleIsFetchingAC(true));
+
+    usersAPI
+      .getUsersGET(currentPage, pageSize)
+      .then((data) => {
+        dispatch(toggleIsFetchingAC(false));
+        dispatch(setUsersAC(data.items));
+      });
+  };
+};
+
+export const follow = (userId) => {
+  return (dispatch) => {
+    dispatch(toggleFollowingInProgress(true, userId));
+    usersAPI.postUserFollow(userId).then((response) => {
+      if (response.data.resultCode == 0) {
+        dispatch(followAC(userId));
+      }
+      dispatch(toggleFollowingInProgress(false, userId));
+    });
+  };
+};
+
+export const unfollow = (userId) => {
+  return (dispatch) => {
+    dispatch(toggleFollowingInProgress(true, userId));
+    usersAPI.deleteUserUnfollow(userId).then((response) => {
+      if (response.data.resultCode == 0) {
+        dispatch(unfollowAC(userId));
+      }
+      dispatch(toggleFollowingInProgress(false, userId));
+    });
+  };
+};
+
