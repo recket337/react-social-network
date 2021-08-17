@@ -4,8 +4,8 @@ import s from "./ProfileInfo.module.css";
 import { ProfileStatus } from "./ProfileStatus.jsx";
 
 export const ProfileInfo = (props) => {
-  if(!props.profile) {
-    return <Preloader />
+  if (!props.profile) {
+    return <Preloader />;
   }
 
   return (
@@ -14,7 +14,7 @@ export const ProfileInfo = (props) => {
         <img src={props.profile.photos.large} />
       </div>
       <div className={s.description}>description</div>
-      <ProfileStatus status={"hello my friends"}/>
+      <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
     </div>
   );
 };

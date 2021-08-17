@@ -20,15 +20,30 @@ export const usersAPI = {
   deleteUserUnfollow(id) {
     return instance.delete(`follow/${id}`);
   },
+  getUserWithId(userId) {
+    return profileAPI.getUserWithId(userId);
+  },
+};
+
+export const profileAPI = {
+  getUserWithId(userId) {
+    return instance.get(`profile/${userId}`);
+  },
+  getStatus(userId) {
+    return instance.get(`profile/status/${userId}`);
+  },
+  updateStatus(status) {
+    return instance.put(`profile/status`, {
+      status: status,
+    });
+  },
+};
+
+export const authAPI = {
   getAuth() {
     return instance.get(`auth/me`);
   },
-  getUserWithId(userId) {
-    return instance.get(
-      'https://social-network.samuraijs.com/api/1.0/profile/' + userId
-    );
-  },
-};
+}
 
 // axios
 // .get("https://social-network.samuraijs.com/api/1.0/profile/" + userId)

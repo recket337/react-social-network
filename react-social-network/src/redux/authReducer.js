@@ -1,4 +1,4 @@
-import { usersAPI } from "../api/api";
+import { authAPI } from "../api/api";
 
 const SET_USER_DATA = 'SET_USER_DATA';
 
@@ -32,7 +32,7 @@ export const setAuthUserData = (userId, email, login) => ({
 }); // SYNTAX
 
 export const setUserProfileThunk = () => (dispatch) => {
-  usersAPI.getAuth().then((response) => {
+  authAPI.getAuth().then((response) => {
     if (response.data.resultCode === 0) {
       let { id, login, email } = response.data.data;
       dispatch(setAuthUserData(id, email, login));
