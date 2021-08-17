@@ -29,5 +29,5 @@ export default compose(
     getUserProfileThunk,
   }),
   withRouter,
-  withAuthRedirect,
+//  withAuthRedirect,
 )(ProfileContainer);
