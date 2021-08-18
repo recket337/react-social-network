@@ -1,4 +1,4 @@
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
+// const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
 const SEND_MESSAGE = 'SEND_MESSAGE';
 
 let initialState = {
@@ -14,28 +14,28 @@ let initialState = {
     { id: 3, message: 'fewe' },
     { id: 4, message: 'fewe' },
   ],
-  newMessageBody: '',
 };
 
 export const dialogsReducer = (state = initialState, action) => {
-
   switch (action.type) {
-    case UPDATE_NEW_MESSAGE_BODY: {
-      return {
-        ...state,
-        //messagesData: [...state.messagesData] // overwrite by priority
-        newMessageBody: action.body
-      };
-    }
+    // case UPDATE_NEW_MESSAGE_BODY: {
+    //   return {
+    //     ...state,
+    //     //messagesData: [...state.messagesData] // overwrite by priority
+    //     newMessageBody: action.body,
+    //   };
+    // }
     case SEND_MESSAGE: {
-      let body = state.newMessageBody;
+      let body = action.newMessageBody;
       return {
         ...state,
-        messagesData: [...state.messagesData, {
-          id: state.messagesData.length + 1,
-          message: body,
-        }], // overwrite by priority
-        newMessageBody: '',
+        messagesData: [
+          ...state.messagesData,
+          {
+            id: state.messagesData.length + 1,
+            message: body,
+          },
+        ], // overwrite by priority
       };
     }
     default:
@@ -43,11 +43,14 @@ export const dialogsReducer = (state = initialState, action) => {
   }
 };
 
-export const updateNewMessageBodyActionCreator = (text) => {
-  return {
-    type: UPDATE_NEW_MESSAGE_BODY,
-    body: text,
-  };
-};
+// export const updateNewMessageBodyActionCreator = (text) => {
+//   return {
+//     type: UPDATE_NEW_MESSAGE_BODY,
+//     body: text,
+//   };
+// };
 
-export const sendMessageActionCreator = () => ({ type: SEND_MESSAGE }); // SYNTAX
+export const sendMessageActionCreator = (newMessageBody) => ({
+  type: SEND_MESSAGE,
+  newMessageBody,
+}); // SYNTAX
