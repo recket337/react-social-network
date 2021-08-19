@@ -43,7 +43,13 @@ export const authAPI = {
   getAuth() {
     return instance.get(`auth/me`);
   },
-}
+  login(email, password, rememberMe = false) {
+    return instance.post(`auth/login`, { email, password, rememberMe });
+  },
+  logout() {
+    return instance.delete(`auth/login`);
+  },
+};
 
 // axios
 // .get("https://social-network.samuraijs.com/api/1.0/profile/" + userId)
